@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "dev": "cd frontend && npm run dev -- --port 3005"
+  }
+}

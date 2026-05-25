@@ -1,0 +1,5 @@
+services:
+  frontend:
+    command: sh -c "npm install && npm run build && npm start -- --port 3005"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://device.kannart.jp
