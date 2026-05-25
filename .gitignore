@@ -1,6 +1,12 @@
 # Claude
 .claude
 CLAUDE.md
+**/CLAUDE.md
+frontend/AGENTS.md
+
+# SSL certs
+docker/nginx/certs/*.key
+docker/nginx/certs/*.crt
 
 # Frontend dependencies (local npm install)
 frontend/node_modules
