@@ -26,6 +26,7 @@ class SendReservationNotifications extends Command
     {
         $now = Carbon::now();
 
+        $this->autoStartReserved($now);
         $this->autoCompleteExpired($now);
 
         foreach ($this->startReminders as $minutes) {
@@ -36,6 +37,17 @@ class SendReservationNotifications extends Command
         }
 
         return self::SUCCESS;
+    }
+
+    private function autoStartReserved(Carbon $now): void
+    {
+        $count = Reservation::where('status', 'reserved')
+            ->where('start_datetime', '<=', $now)
+            ->update(['status' => 'in_use']);
+
+        if ($count > 0) {
+            $this->info("予約を使用中に更新: {$count}件");
+        }
     }
 
     private function autoCompleteExpired(Carbon $now): void
