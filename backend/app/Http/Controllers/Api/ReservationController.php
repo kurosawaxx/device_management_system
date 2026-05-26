@@ -69,6 +69,7 @@ class ReservationController extends Controller
         ]);
 
         $reservation->update(['end_datetime' => $validated['end_datetime']]);
+        $reservation->notifications()->where('type', 'end')->delete();
 
         return response()->json(['data' => $reservation->fresh()->load('user:id,name')]);
     }
