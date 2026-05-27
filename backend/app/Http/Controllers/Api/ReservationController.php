@@ -103,7 +103,7 @@ class ReservationController extends Controller
             return response()->json(['message' => 'この予約は返却できません'], 422);
         }
 
-        $reservation->update(['status' => 'completed']);
+        $reservation->update(['status' => 'completed', 'end_datetime' => now()]);
 
         return response()->json(['data' => $reservation]);
     }

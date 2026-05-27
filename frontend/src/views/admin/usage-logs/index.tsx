@@ -10,7 +10,7 @@ type LogEntry = {
   user: Pick<User, 'id' | 'name'> | null;
   start_datetime: string;
   end_datetime: string;
-  status: 'completed' | 'cancelled';
+  status: 'reserved' | 'in_use' | 'completed' | 'cancelled';
   notes: string | null;
 };
 
@@ -102,14 +102,17 @@ export function UsageLogsPage() {
                       {log.status === 'completed' ? calcDuration(log.start_datetime, log.end_datetime) : '—'}
                     </td>
                     <td className="px-4 py-3">
-                      {log.status === 'completed' ? (
-                        <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700">
-                          完了
-                        </span>
-                      ) : (
-                        <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-500">
-                          キャンセル
-                        </span>
+                      {log.status === 'completed' && (
+                        <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700">完了</span>
+                      )}
+                      {log.status === 'cancelled' && (
+                        <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-500">キャンセル</span>
+                      )}
+                      {log.status === 'in_use' && (
+                        <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">使用中</span>
+                      )}
+                      {log.status === 'reserved' && (
+                        <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-700">予約済</span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-gray-500 text-xs max-w-[160px] truncate">

@@ -52,7 +52,7 @@ class SendReservationNotifications extends Command
 
     private function autoCompleteExpired(Carbon $now): void
     {
-        $count = Reservation::where('status', 'in_use')
+        $count = Reservation::whereIn('status', ['in_use', 'reserved'])
             ->where('end_datetime', '<', $now)
             ->update(['status' => 'completed']);
 

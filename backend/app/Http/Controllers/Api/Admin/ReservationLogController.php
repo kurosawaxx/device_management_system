@@ -11,7 +11,7 @@ class ReservationLogController extends Controller
     public function index(): JsonResponse
     {
         $logs = Reservation::with(['device:id,name,model', 'user:id,name'])
-            ->whereIn('status', ['completed', 'cancelled'])
+            ->orderByRaw("CASE WHEN status = 'in_use' THEN 0 ELSE 1 END")
             ->orderBy('end_datetime', 'desc')
             ->paginate(50);
 
