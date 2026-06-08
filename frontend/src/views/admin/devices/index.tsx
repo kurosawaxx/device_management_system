@@ -357,8 +357,8 @@ export function AdminDevicesPage() {
                         </div>
                       )}
                     </td>
-                    <td className="px-4 py-3 font-medium text-gray-800 max-w-[200px] truncate" title={device.name}>{device.name}</td>
-                    <td className="px-4 py-3 text-gray-600 max-w-[200px] truncate" title={device.model}>{device.model}</td>
+                    <td className="px-4 py-3 font-medium text-gray-800 max-w-[200px]"><div className="line-clamp-2">{device.name}</div></td>
+                    <td className="px-4 py-3 text-gray-600 max-w-[200px]"><div className="line-clamp-2">{device.model}</div></td>
                     <td className="px-4 py-3 whitespace-nowrap">
                       <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700">
                         {TYPE_LABEL[device.type]}
