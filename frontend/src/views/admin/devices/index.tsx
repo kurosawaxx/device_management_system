@@ -40,7 +40,7 @@ const EMPTY_FORM: DeviceFormData = {
   is_active: true,
 };
 
-function buildFormData(form: DeviceFormData, imageFile: File | null, method?: string, adminOnly = false): FormData {
+function buildFormData(form: DeviceFormData, imageFile: File | null, clearImage: boolean, method?: string, adminOnly = false): FormData {
   const fd = new FormData();
   if (method) fd.append('_method', method);
   fd.append('name', form.name);
@@ -51,6 +51,7 @@ function buildFormData(form: DeviceFormData, imageFile: File | null, method?: st
     fd.append('is_active', form.is_active ? '1' : '0');
   }
   if (imageFile) fd.append('image', imageFile);
+  else if (clearImage) fd.append('clear_image', '1');
   return fd;
 }
 
@@ -63,6 +64,7 @@ export function AdminDevicesPage() {
   const [form, setForm] = useState<DeviceFormData>(EMPTY_FORM);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [clearImage, setClearImage] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -119,6 +121,7 @@ export function AdminDevicesPage() {
     setForm(EMPTY_FORM);
     setImageFile(null);
     setImagePreview(null);
+    setClearImage(false);
     setError('');
   };
 
@@ -138,6 +141,7 @@ export function AdminDevicesPage() {
     });
     setImageFile(null);
     setImagePreview(deviceImageUrl(device.image_path));
+    setClearImage(false);
     setError('');
     setShowForm(true);
   };
@@ -154,10 +158,10 @@ export function AdminDevicesPage() {
     e.preventDefault();
     setError('');
     if (editDevice) {
-      const fd = buildFormData(form, imageFile, 'PUT', isAdmin);
+      const fd = buildFormData(form, imageFile, clearImage, 'PUT', isAdmin);
       updateMutation.mutate({ id: editDevice.id, fd });
     } else {
-      const fd = buildFormData(form, imageFile);
+      const fd = buildFormData(form, imageFile, false);
       createMutation.mutate(fd);
     }
   };
@@ -274,6 +278,20 @@ export function AdminDevicesPage() {
                   </button>
                   {imageFile && (
                     <span className="ml-3 text-xs text-gray-500">{imageFile.name}</span>
+                  )}
+                  {imagePreview && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImagePreview(null);
+                        setImageFile(null);
+                        setClearImage(true);
+                        if (fileInputRef.current) fileInputRef.current.value = '';
+                      }}
+                      className="ml-3 text-xs text-red-500 hover:text-red-700 underline"
+                    >
+                      画像を削除
+                    </button>
                   )}
                 </div>
               </div>

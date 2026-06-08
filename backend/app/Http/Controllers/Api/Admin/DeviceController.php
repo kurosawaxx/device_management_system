@@ -65,6 +65,11 @@ class DeviceController extends Controller
                 Storage::disk('public')->delete($device->image_path);
             }
             $validated['image_path'] = $request->file('image')->store('devices', 'public');
+        } elseif ($request->input('clear_image')) {
+            if ($device->image_path) {
+                Storage::disk('public')->delete($device->image_path);
+            }
+            $validated['image_path'] = null;
         }
         unset($validated['image']);
 
