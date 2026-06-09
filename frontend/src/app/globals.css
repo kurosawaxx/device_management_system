@@ -28,3 +28,51 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes device-edit-form-enter {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px) scaleY(0.98);
+  }
+
+  to {
+    max-height: 2000px;
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+.device-edit-form-enter {
+  max-height: 2000px;
+  overflow: hidden;
+  transform-origin: top;
+  animation: device-edit-form-enter 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes device-edit-form-exit {
+  from {
+    max-height: 2000px;
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+
+  to {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px) scaleY(0.98);
+  }
+}
+
+.device-edit-form-exit {
+  overflow: hidden;
+  transform-origin: top;
+  animation: device-edit-form-exit 260ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .device-edit-form-enter,
+  .device-edit-form-exit {
+    animation: none;
+  }
+}
